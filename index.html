@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevAcademy | Мультиплатформа для Разработчиков</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- App Container -->
+    <div class="app-container">
+        
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo-area" id="btn-logo">
+                <i class="fa-solid fa-graduation-cap logo-icon"></i>
+                <span class="logo-text">DevAcademy<span class="accent">.</span></span>
+            </div>
+            
+            <!-- Language Selector -->
+            <div class="language-selector" id="language-switcher">
+                <button class="lang-tab active" data-lang="python">
+                    <i class="fa-brands fa-python"></i> <span>Python</span>
+                </button>
+                <button class="lang-tab" data-lang="cpp">
+                    <span class="lang-icon-text">C++</span> <span>C++</span>
+                </button>
+                <button class="lang-tab" data-lang="csharp">
+                    <span class="lang-icon-text">C#</span> <span>C#</span>
+                </button>
+                <button class="lang-tab" data-lang="c">
+                    <span class="lang-icon-text">C</span> <span>C</span>
+                </button>
+                <button class="lang-tab" data-lang="java">
+                    <i class="fa-brands fa-java"></i> <span>Java</span>
+                </button>
+            </div>
+            
+            <!-- User Status & Progress Bar -->
+            <div class="header-stats">
+                <div class="streak-badge" title="Ударный режим (заходите каждый день!)">
+                    <span class="streak-fire">🔥</span> <span id="streak-count">1</span> дн.
+                </div>
+                
+                <div class="xp-progress-container">
+                    <div class="xp-labels">
+                        <span class="rank-name" id="user-rank">Абсолютный новичок</span>
+                        <span class="xp-text"><span id="current-xp">0</span> / <span id="next-level-xp">1000</span> XP</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" id="xp-progress-bar" style="width: 0%;"></div>
+                    </div>
+                </div>
+
+                <div class="level-badge">
+                    <span class="level-lbl">LVL</span>
+                    <span class="level-val" id="user-level">1</span>
+                </div>
+            </div>
+
+            <!-- Global Action Buttons -->
+            <div class="header-actions">
+                <button class="btn btn-secondary btn-icon" id="btn-toggle-cheat" title="Шпаргалка">
+                    <i class="fa-solid fa-book-open"></i> <span>Шпаргалка</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <main class="app-main">
+            
+            <!-- 1. DASHBOARD SCREEN (Course Map) -->
+            <section id="dashboard-screen" class="screen active">
+                <div class="dashboard-hero">
+                    <h1 id="dashboard-main-title">Интерактивная карта обучения Python</h1>
+                    <p id="dashboard-sub-title">Пройдите 100 уроков от основ до Middle Developer. Каждый урок открывает следующую ступень.</p>
+                </div>
+
+                <!-- Stats Overview Grid -->
+                <div class="stats-overview-grid">
+                    <div class="stat-card">
+                        <i class="fa-solid fa-circle-check stat-icon completed"></i>
+                        <div class="stat-info">
+                            <span class="stat-value" id="stats-completed-lessons">0 / 100</span>
+                            <span class="stat-label">Уроков пройдено</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fa-solid fa-trophy stat-icon level"></i>
+                        <div class="stat-info">
+                            <span class="stat-value" id="stats-total-xp">0 XP</span>
+                            <span class="stat-label">Опыт в языке</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fa-solid fa-flag-checkered stat-icon course-progress"></i>
+                        <div class="stat-info">
+                            <div class="mini-progress-bar">
+                                <div class="mini-progress-fill" id="course-progress-fill" style="width: 0%;"></div>
+                            </div>
+                            <span class="stat-label">Прогресс языка: <span id="course-progress-percent">0%</span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 10 Modules List -->
+                <div class="modules-container" id="modules-list">
+                    <!-- Dynamic rendering via JavaScript -->
+                </div>
+
+                <!-- Interactive Mini-Quiz -->
+                <div class="quiz-bonus-card">
+                    <div class="quiz-content">
+                        <h3><i class="fa-solid fa-lightbulb"></i> Ежедневная разминка ума (+50 XP)</h3>
+                        <p id="quiz-question">Загрузка интересного вопроса...</p>
+                        <div class="quiz-options" id="quiz-options">
+                            <!-- Options rendered dynamically -->
+                        </div>
+                        <div class="quiz-feedback hidden" id="quiz-feedback"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. LESSON SCREEN -->
+            <section id="lesson-screen" class="screen">
+                <!-- Lesson Top Navigation -->
+                <div class="lesson-nav">
+                    <button class="btn btn-secondary" id="btn-back-dashboard">
+                        <i class="fa-solid fa-chevron-left"></i> На карту обучения
+                    </button>
+                    <div class="lesson-meta-title">
+                        <span class="module-title-tag" id="lesson-module-tag">Модуль 1</span>
+                        <h2 id="lesson-header-title">Урок 1: Введение</h2>
+                    </div>
+                    <!-- Navigation arrows -->
+                    <div class="lesson-navigation-arrows">
+                        <button class="btn btn-icon btn-secondary" id="btn-prev-lesson" title="Предыдущий урок">
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </button>
+                        <button class="btn btn-icon btn-secondary" id="btn-next-lesson" title="Следующий урок">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mobile Tabs -->
+                <div class="mobile-tabs">
+                    <button class="tab-button active" data-tab="theory">Теория и Ассистент</button>
+                    <button class="tab-button" data-tab="editor">Редактор и Консоль</button>
+                </div>
+
+                <!-- Dual Column Lesson Workspace -->
+                <div class="lesson-workspace">
+                    
+                    <!-- Left: Theory, Visualizer & AI Tutor -->
+                    <div class="workspace-pane theory-pane active" id="pane-theory">
+                        <div class="pane-content">
+                            <!-- Lesson Theory Text -->
+                            <div class="theory-section">
+                                <h3>Теория</h3>
+                                <div class="theory-body" id="lesson-theory-text">
+                                    <!-- Populated dynamically -->
+                                </div>
+                            </div>
+                            
+                            <!-- Lesson Task Card -->
+                            <div class="task-section">
+                                <div class="task-card">
+                                    <div class="task-card-header">
+                                        <i class="fa-solid fa-clipboard-list"></i>
+                                        <span>Задание</span>
+                                    </div>
+                                    <div class="task-body" id="lesson-task-text">
+                                        <!-- Populated dynamically -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Interactive Memory Visualizer Widget -->
+                            <div class="visualizer-section">
+                                <div class="visualizer-card">
+                                    <div class="visualizer-card-header">
+                                        <i class="fa-solid fa-microchip"></i>
+                                        <span>Визуализатор Памяти (Stack & Heap)</span>
+                                    </div>
+                                    <div class="visualizer-body">
+                                        <div class="memory-container">
+                                            <div class="memory-stack">
+                                                <h5>Стек (Stack Frame)</h5>
+                                                <div class="memory-cells" id="stack-cells">
+                                                    <!-- Dynamic stack variables -->
+                                                    <div class="memory-empty-state">Нет локальных переменных</div>
+                                                </div>
+                                            </div>
+                                            <div class="memory-heap">
+                                                <h5>Куча (Dynamic Heap)</h5>
+                                                <div class="memory-cells" id="heap-cells">
+                                                    <!-- Dynamic heap structures -->
+                                                    <div class="memory-empty-state">Куча пуста</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Interactive AI Coding Tutor Chat Widget -->
+                            <div class="ai-tutor-section">
+                                <div class="ai-tutor-card">
+                                    <div class="ai-tutor-header">
+                                        <div class="ai-tutor-avatar">
+                                            <i class="fa-solid fa-robot"></i>
+                                            <span class="ai-indicator-dot"></span>
+                                        </div>
+                                        <div class="ai-tutor-info">
+                                            <span>ИИ Кодинг-Тьютор</span>
+                                            <span class="ai-tutor-status">В сети</span>
+                                        </div>
+                                    </div>
+                                    <div class="ai-tutor-chat-body" id="ai-chat-logs">
+                                        <div class="ai-msg">Привет! Я твой персональный ИИ-ассистент. Я помогу тебе разобраться в тонкостях текущего урока. Выбери тему для вопроса ниже!</div>
+                                    </div>
+                                    <div class="ai-tutor-options" id="ai-chat-options">
+                                        <!-- Clickable options generated dynamically -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Right: Code Editor & Console Container -->
+                    <div class="workspace-pane editor-pane" id="pane-editor">
+                        <div class="editor-header">
+                            <span class="filename-tab" id="editor-filename-tab"><i class="fa-brands fa-python"></i> solution.py</span>
+                            <div class="editor-actions-top">
+                                <button class="btn-text" id="btn-reset-code" title="Сбросить код до исходного">
+                                    <i class="fa-solid fa-rotate-left"></i> Сбросить
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Stylized Monospace Editor -->
+                        <div class="code-editor-container">
+                            <!-- Line numbering column -->
+                            <div class="line-numbers" id="editor-line-numbers">
+                                <div>1</div>
+                            </div>
+                            <!-- Core editable textarea -->
+                            <textarea class="code-textarea" id="code-input" spellcheck="false" autocomplete="off" placeholder="# Напишите ваш код здесь..."></textarea>
+                        </div>
+
+                        <!-- Editor Actions Panel -->
+                        <div class="editor-controls">
+                            <button class="btn btn-primary" id="btn-run-verify">
+                                <i class="fa-solid fa-play"></i> Проверить решение
+                            </button>
+                        </div>
+
+                        <!-- Simulated Interactive Console Output -->
+                        <div class="console-container">
+                            <div class="console-header">
+                                <span><i class="fa-solid fa-terminal"></i> Консоль проверки</span>
+                                <button class="btn-text console-clear" id="btn-clear-console" title="Очистить консоль">
+                                    <i class="fa-solid fa-ban"></i>
+                                </button>
+                            </div>
+                            <div class="console-body" id="console-output">
+                                <span class="console-placeholder">Ожидание запуска кода... Нажмите "Проверить решение" для тестирования вашего решения.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </main>
+        
+        <!-- Interactive Cheat Sheet Sidebar (Drawer) -->
+        <aside class="cheat-sheet-drawer" id="cheat-sheet-drawer">
+            <div class="drawer-header">
+                <h3><i class="fa-solid fa-book-open"></i> Шпаргалка: <span id="cheat-language-name">Python</span></h3>
+                <button class="btn-close-drawer" id="btn-close-cheat"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="drawer-body">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="cheat-search" placeholder="Поиск по шпаргалке...">
+                </div>
+                
+                <div class="cheat-content" id="cheat-content-list">
+                    <!-- Dynamic rendering based on search -->
+                </div>
+            </div>
+        </aside>
+
+        <!-- Celebration Level-Up Modal -->
+        <div class="modal-overlay" id="levelup-modal">
+            <div class="modal-content levelup-card">
+                <div class="congrats-banner">
+                    <i class="fa-solid fa-star animated-star"></i>
+                    <h2>НОВЫЙ УРОВЕНЬ!</h2>
+                    <i class="fa-solid fa-star animated-star"></i>
+                </div>
+                <div class="levelup-circle">
+                    <span id="modal-level-val">2</span>
+                </div>
+                <div class="levelup-details">
+                    <p class="levelup-congrats">Поздравляем! Ваш уровень повышен.</p>
+                    <p class="levelup-rank-label">Новый статус:</p>
+                    <h3 class="levelup-rank-name" id="modal-rank-val">Python Trainee</h3>
+                    <div class="bonus-xp-info">
+                        <i class="fa-solid fa-gift"></i> Получен бонус: <strong>+100 XP</strong> и доступ к новым модулям!
+                    </div>
+                </div>
+                <button class="btn btn-primary" id="btn-close-levelup">Продолжить путь</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Canvas for Confetti particles -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Custom Script -->
+    <script src="script.js"></script>
+</body>
+</html>
